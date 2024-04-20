@@ -1,3 +1,4 @@
+import { Bool, Field, Struct, Provable, UInt64 } from "o1js";
 import {
   RuntimeModule,
   runtimeMethod,
@@ -5,12 +6,8 @@ import {
   runtimeModule,
 } from "@proto-kit/module";
 import { StateMap, assert } from "@proto-kit/protocol";
-import { Bool, Field, Struct, Provable, UInt64 } from "o1js";
 
-export class SecurityCode extends Struct({
-  char0: Field,
-  char1: Field,
-}) {}
+export class SecurityCode extends Struct({char0: Field,char1: Field}) {}
 
 export class AgentId extends UInt64 {}
 
@@ -37,21 +34,13 @@ export class SpyMaster extends RuntimeModule<SpyMasterConfig> {
   public addAgent(agentId: AgentId, securityCode: SecurityCode) {
     this.agents.set(
       agentId,
-      new Agent({
-        agentId: agentId,
-        lastMessage: UInt64.from(0),
-        securityCode: securityCode,
-      }),
+      new Agent({agentId: agentId, lastMessage: UInt64.from(0),securityCode: securityCode}),
     );
   }
 
   setLastMessage(agentId: AgentId, lastMessage: UInt64) {
     const agent = this.agents.get(agentId).value;
-    const newAgent = new Agent({
-      agentId: agent.agentId,
-      lastMessage: lastMessage,
-      securityCode: agent.securityCode,
-    });
+    const newAgent = new Agent({agentId: agent.agentId, lastMessage: lastMessage, securityCode: agent.securityCode});
     this.agents.set(agentId, newAgent);
   }
 
@@ -72,7 +61,7 @@ export class SpyMaster extends RuntimeModule<SpyMasterConfig> {
     );
     assert(
       message.messageNumber.greaterThan(agent.lastMessage),
-      "Message number is not greater than the last message number",
+      "Message no. is not greater than the last message no.",
     );
 
     this.setLastMessage(message.agentId, message.messageNumber);
