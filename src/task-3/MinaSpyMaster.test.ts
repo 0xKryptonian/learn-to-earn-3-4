@@ -167,7 +167,7 @@ describe("MinaSpyMaster", () => {
       expect(block).toBeTruthy();
       expect(block?.txs[0]?.status).toBeFalsy();
       expect(block?.txs[0]?.statusMessage).toEqual(
-        "Message no. is not greater than the last messages no.",
+        "Message no. is not greater than the last message no.",
       );
     });
   });

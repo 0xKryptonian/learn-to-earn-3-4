@@ -8,7 +8,6 @@ import {
 import { StateMap, assert } from "@proto-kit/protocol";
 
 export class SecurityCode extends Struct({char0: Field,char1: Field}) {}
-
 export class AgentId extends UInt64 {}
 
 export class Message extends Struct({
@@ -25,7 +24,6 @@ export class Agent extends Struct({
 }) {}
 
 type SpyMasterConfig = Record<string, never>;
-
 @runtimeModule()
 export class SpyMaster extends RuntimeModule<SpyMasterConfig> {
   @state() public agents = StateMap.from<AgentId, Agent>(AgentId, Agent);
@@ -63,7 +61,6 @@ export class SpyMaster extends RuntimeModule<SpyMasterConfig> {
       message.messageNumber.greaterThan(agent.lastMessage),
       "Message no. is not greater than the last message no.",
     );
-
     this.setLastMessage(message.agentId, message.messageNumber);
   }
 }
